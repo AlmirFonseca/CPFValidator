@@ -15,7 +15,21 @@ class CPFValidator:
 
         """
 
+        if not self._check_format(cpf):
+            raise ValueError("Formato de CPF inválido")
+
         self.cpf = self._clean_cpf(cpf)
+
+    def _check_format(self, cpf):
+        """ Verifica se o CPF fornecido está no formato XXX.XXX.XXX-XX. 
+        Args:
+            cpf (str): CPF a ser verificado.
+
+        Returns:
+            bool: True se o CPF está no formato XXX.XXX.XXX-XX, False caso contrário.
+
+        """
+        return re.match(r"^\d{3}\.\d{3}\.\d{3}-\d{2}$", cpf) is not None
 
     def _clean_cpf(self, cpf):
         """ Remove caracteres não numéricos do CPF. 
@@ -73,6 +87,8 @@ class CPFValidator:
             bool: True se o CPF é válido, False caso contrário.
 
         """
+
+
         # Checa se o CPF fornecido possui 11 dígitos e se não é uma sequência inválida (todos os dígitos iguais)
         if len(self.cpf) != 11 or self._is_invalid_sequence():
             return False
